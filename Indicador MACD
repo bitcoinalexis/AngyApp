@@ -1,41 +1,51 @@
 //By: BitcoinAlexis
-//@version=4 
-study(title="MACD DIVISAS y Crypto", shorttitle="MTen", resolution="14",precision=3)
+//@version=5
+indicator(title="MACD DIVISAS y Crypto", shorttitle="MTen", resolution="14", precision=3)
 
-//SI MACD esta por encima de 170 puntos el carrera bullish //
+// ---------------------------
+// INPUTS
+// ---------------------------
+fast_length = input.int(title="Fast Length", defval=5)
+slow_length = input.int(title="Slow Length", defval=50)
+src = input.source(title="Source", defval=close)
+signal_length = input.int(title="Signal Smoothing", minval=1, maxval=50, defval=6)
+sma_source = input.bool(title="Simple MA (Oscillator)", defval=false)
+sma_signal = input.bool(title="Simple MA (Signal Line)", defval=false)
 
-//Velas 30m abrir operaicón 15:00 UTC-7) //
+// ---------------------------
+// COLORS
+// ---------------------------
+col_grow_above = color.new(#26E100, 0)
+col_grow_below = color.new(#FFCDD2, 0)
+col_fall_above = color.new(#B2DFDB, 0)
+col_fall_below = color.new(#EF5350, 0)
 
-// Getting inputs
-fast_length = input(title="Fast Length", type=input.integer, defval=5)
-slow_length = input(title="Slow Length", type=input.integer, defval=50)
-src = input(title="Source", type=input.source, defval=close)
-signal_length = input(title="Signal Smoothing", type=input.integer, minval = 1, maxval = 50, defval = 6)
-sma_source = input(title="Simple MA(Oscillator)", type=input.bool, defval=false)
-sma_signal = input(title="Simple MA(Signal Line)", type=input.bool, defval=false)
+col_macd = color.new(#FFEA00, 0)
+col_signal = color.new(#E100CB, 0)
 
-// Plot colors
-col_grow_above = #26E100
-col_grow_below = #FFCDD2
-col_fall_above = #B2DFDB
-col_fall_below = #EF5350
-
-//COlores lineas MACD//
-
-col_macd = #FFEA00
-col_signal = #E100CB
-
-// Calculating
-fast_ma = sma_source ? sma(src, fast_length) : ema(src, fast_length)
-slow_ma = sma_source ? sma(src, slow_length) : ema(src, slow_length)
+// ---------------------------
+// MACD CÁLCULOS
+// ---------------------------
+fast_ma = sma_source ? ta.sma(src, fast_length) : ta.ema(src, fast_length)
+slow_ma = sma_source ? ta.sma(src, slow_length) : ta.ema(src, slow_length)
 macd = fast_ma - slow_ma
-signal = sma_signal ? sma(macd, signal_length) : ema(macd, signal_length)
+signal = sma_signal ? ta.sma(macd, signal_length) : ta.ema(macd, signal_length)
 hist = macd - signal
 
-plot(hist, title="Histogram", style=plot.style_columns, color=(hist>=0 ? (hist[1] < hist ? col_grow_above : col_fall_above) : (hist[1] < hist ? col_grow_below : col_fall_below) ), transp=0 )
-plot(macd, title="MACD", color=col_macd, transp=0)
-plot(signal, title="Signal", color=col_signal, transp=0)
+// ---------------------------
+// PLOTS
+// ---------------------------
+histColor =
+hist >= 0 ?
+(hist[1] < hist ? col_grow_above : col_fall_above) :
+(hist[1] < hist ? col_grow_below : col_fall_below)
+
+plot(hist, title="Histogram", style=plot.style_columns, color=histColor)
+plot(macd, title="MACD", color=col_macd)
+plot(signal, title="Signal", color=col_signal)
 
 
-//Lineas de compra,venta,soporte
 
+// -------------------------------------------
+// FIN DEL SCRIPT
+// -------------------------------------------
