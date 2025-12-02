@@ -12,6 +12,10 @@ Terminal de Trading: Sistema de señales RedNeuronalAPP.py + SuperTrend
 hola al comentar este post esta la versión 0.1.3  01/DIC/2025
 
 
-Mi app no es 100% certera no es una esfera magica soy consiente que cualquier decisión importante fundamental puede cambiar y romper todo análisis técnico. el enfoque de mi app es ofrecer servicios similares y un conjunto tipo, 3commas, tradingview a un menor costo. 
+hola al comentar este post esta la versión 0.1.3  01/DIC/2025
 
-igualmente encontrar pares, oportunos que estadísticamente hay alta probalidad para abrir una operación.
+Actualmente ya mejore lo de los anuncios.
+
+Ya agregue un filtro de Pumps, aumentando la probalidad de los pares que se muestran su porcentaje de probalidad aumenta que sea alto que el par ya empezara una tendencia bajista. 
+
+Mapa con señal Short + Red Neurononal, ahora puedes analizar cualquier par listado en Bybit. podrás ver en tiempo real si hay una señal short del par consultado. 
